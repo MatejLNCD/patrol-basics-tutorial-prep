@@ -19,7 +19,7 @@ void main() {
       await $.native.openNotifications();
       await $.native.tapOnNotificationByIndex(0);
       await $.native.closeNotifications();
-      expect($(keys.homePage.successSnackbar).visible, equals(true));
+      $(keys.homePage.successSnackbar).waitUntilVisible();
     },
   );
 }
