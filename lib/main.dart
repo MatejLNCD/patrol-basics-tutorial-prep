@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'package:patrol_tutorial_prep/pages/sign_in_page.dart';
 import 'package:patrol_tutorial_prep/ui/style/colors.dart';
 
 void main() {
+  initApp();
   runApp(const MainApp());
+}
+
+void initApp() {
+  tz.initializeTimeZones();
 }
 
 class MainApp extends StatelessWidget {

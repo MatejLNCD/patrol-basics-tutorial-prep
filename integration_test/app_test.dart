@@ -8,6 +8,7 @@ void main() {
     'signs in, triggers a notification, and taps on it',
     framePolicy: LiveTestWidgetsFlutterBindingFramePolicy.fullyLive,
     ($) async {
+      initApp();
       await $.pumpWidgetAndSettle(const MainApp());
       await $(keys.signInPage.emailTextField).enterText('test@email.com');
       await $(keys.signInPage.passwordTextField).enterText('password');
@@ -16,9 +17,14 @@ void main() {
         await $.native.grantPermissionWhenInUse();
       }
       await $(keys.homePage.notificationIcon).tap();
+      await $.native.pressHome();
       await $.native.openNotifications();
-      await $.native.tapOnNotificationByIndex(0);
-      await $.native.closeNotifications();
+      // await Future.delayed(const Duration(seconds: 5));
+      await $.native.tapOnNotificationBySelector(
+        Selector(textContains: 'Patrol says hello!'),
+        timeout: const Duration(seconds: 5),
+      );
+      // await $.native.tapOnNotificationByIndex(0);
       $(keys.homePage.successSnackbar).waitUntilVisible();
     },
   );

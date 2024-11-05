@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:patrol_tutorial_prep/pages/integration_test_keys.dart';
 import 'package:patrol_tutorial_prep/ui/images.dart';
 import 'package:patrol_tutorial_prep/ui/style/colors.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:timezone/timezone.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -69,11 +71,19 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
-    await _flutterLocalNotificationsPlugin.show(
+    final timezone = await FlutterTimezone.getLocalTimezone();
+    final scheduledTime =
+        TZDateTime.now(getLocation(timezone)).add(const Duration(seconds: 3));
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
       0,
       'Patrol says hello!',
       'This is a notification from the Patrol tutorial app.',
+      scheduledTime,
       details,
+      androidScheduleMode: AndroidScheduleMode.exact,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.wallClockTime,
     );
   }
 
