@@ -19,12 +19,10 @@ void main() {
       await $(keys.homePage.notificationIcon).tap();
       await $.native.pressHome();
       await $.native.openNotifications();
-      // await Future.delayed(const Duration(seconds: 5));
       await $.native.tapOnNotificationBySelector(
         Selector(textContains: 'Patrol says hello!'),
         timeout: const Duration(seconds: 5),
       );
-      // await $.native.tapOnNotificationByIndex(0);
       $(keys.homePage.successSnackbar).waitUntilVisible();
     },
   );
